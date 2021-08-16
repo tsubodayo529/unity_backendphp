@@ -21,7 +21,7 @@ if ($conn->connect_error) {
 
 
 //loginuserがusernameと一致した場合のみ
-$sql = "SELECT password, level FROM test WHERE username = '".$loginUser."'"; //bindValueしているからややこしい
+$sql = "SELECT password, level, id FROM test WHERE username = '".$loginUser."'"; //bindValueしているからややこしい
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -31,7 +31,7 @@ if ($result->num_rows > 0) {
     //Passwordが一致しているかの確認
     if($row["password"] == $loginPass){
         //Username と Passwordがどちらも一致していた場合
-        echo "login Success.";
+        echo $row["id"];
         //Get User's data.
     }
     else{

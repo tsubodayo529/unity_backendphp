@@ -7,6 +7,8 @@ $username = "root";
 $password = "";
 $dbname = "unity";
 
+$userID = $_POST["userID"];
+
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -14,20 +16,23 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error); //die()で関数から抜け出す.break()みたいなもの
 }
-echo "Connected successfully, now we will show the users.<br><br>";
 
 
 
-$sql = "SELECT username, level FROM test";
+
+$sql = "SELECT itemID FROM usersitems WHERE userID = '".$userID."'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-  // output data of each row
-  while($row = $result->fetch_assoc()) {
-    echo " - Username: " . $row["username"]. " - Lv: " . $row["level"]. "<br>";
+  //jsonを使用する
+  $rows = array();
+  while($row = $result->fetch_assoc()){
+      $rows[] = $row; //配列に追加していく
   }
-} else {
-  echo "0 results";
+  echo json_encode($rows);
+}
+else{
+    echo "no results.";
 }
 
 $conn->close();
